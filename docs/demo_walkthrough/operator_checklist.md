@@ -1,6 +1,6 @@
 # Operator Checklist
 
-Quick checklist for running the Smart Pi demo.
+Quick checklist for running the Smart Pi demo. **Venue:** Confirm space, power, and lighting meet [event and venue requirements](../10_event_and_venue_requirements.md) (stable area, power, controllable lighting if possible).
 
 - [ ] **Boot** — Pi and projector powered; wait for OS to be ready.
 - [ ] **Recalibrate** (if needed) — Run calibration if first time or camera moved; complete 4 corners.
@@ -10,4 +10,4 @@ Quick checklist for running the Smart Pi demo.
 
 See [showcase_script.md](showcase_script.md) for a fuller presentation script.
 
-Last updated: 2025-03-04
+Last updated: 2026-03-04

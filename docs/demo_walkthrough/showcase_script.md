@@ -4,10 +4,11 @@ Short script for presenting the Smart Pi demo (e.g. at a hackathon or workshop).
 
 ## Before the demo
 
-1. Power on the Pi and projector; wait for the system to boot.
-2. If the app does not autostart, run `smartpi run` (or `./scripts/run_demo.sh`).
-3. If this is a new setup or the camera moved, run calibration: **Calibrate** from the menu or `smartpi calibrate`; complete the 4 corners in under 2 minutes.
-4. Verify the pointer is detected (you should see a cursor or overlay following the pen/pointer).
+1. Confirm the venue meets [event and venue requirements](../10_event_and_venue_requirements.md) (space, power, lighting, throw, spares).
+2. Power on the Pi and projector; wait for the system to boot.
+3. If the app does not autostart, run `smartpi run` (or `./scripts/run_demo.sh`).
+4. If this is a new setup or the camera moved, run calibration: **Calibrate** from the menu or `smartpi calibrate`; complete the 4 corners in under 2 minutes.
+5. Verify the pointer is detected (you should see a cursor or overlay following the pen/pointer).
 
 ## During the demo (about 30 seconds)
 
@@ -23,4 +24,4 @@ Short script for presenting the Smart Pi demo (e.g. at a hackathon or workshop).
 
 See [operator_checklist.md](operator_checklist.md) for a quick checklist.
 
-Last updated: 2025-03-04
+Last updated: 2026-03-04

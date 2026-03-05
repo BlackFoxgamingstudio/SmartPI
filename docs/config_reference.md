@@ -1,6 +1,6 @@
 # Config Reference
 
-Purpose and defaults for configuration files. See [04_system_architecture.md](04_system_architecture.md) for pipeline context.
+Purpose and defaults for configuration files. See [04_system_architecture.md](04_system_architecture.md) for pipeline context (motion to input: Capture → Process with 4-point auto-calibration → Interact / Kiosk web UI).
 
 ## configs/app.yaml
 
@@ -14,6 +14,7 @@ Purpose and defaults for configuration files. See [04_system_architecture.md](04
 | use_libcamera | If true, use Picamera2 for capture (Pi with libcamera). Requires picamera2 (not in requirements.txt; install on Pi when using libcamera). | false |
 | use_kalman | If true, use Kalman filter for pointer smoothing instead of EMA. | false |
 | projector_profile | Optional. Name of file in hardware/projector_profiles/ (e.g. generic_1080p) for display size when no calibration. | — |
+| projector_control | *(Reserved / future.)* PJLink over LAN or RS-232C (ESC/VP21) for projector power/input without opening chassis. Not yet implemented. See [08_safety_and_power.md](08_safety_and_power.md) (classroom safety). | — |
 
 ## configs/calibration.yaml
 

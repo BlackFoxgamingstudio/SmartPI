@@ -1,6 +1,13 @@
 # Safety and Power
 
-Basic safety and power notes for running the Smart Pi setup.
+Basic safety and power notes for running the Smart Pi setup. For **classroom deployment**, the design follows "Engineered for Classroom Safety" principles below.
+
+## Classroom safety (ports-only, isolated power, low-voltage only)
+
+- **Ports-only integration:** Zero invasive soldering to the projector's internal mains power. All connections use standard **external VGA, USB, and 3.5mm** ports only.
+- **Isolated power:** The Raspberry Pi runs entirely on its own **fused 5V/5A USB-C** power supply (separate from the projector).
+- **Low-voltage student tasks:** Soldering is strictly limited to **low-voltage, battery-powered IR pens** in supervised bench settings. No mains or projector internals.
+- **Projector control:** Safe power and input management via **RS-232C (ESC/VP21) or PJLink over LAN**, avoiding the need to open the projector chassis.
 
 ## Power
 
@@ -23,4 +30,4 @@ Basic safety and power notes for running the Smart Pi setup.
 
 - This project is provided as-is. Users are responsible for safe wiring, power, and use of hardware. See [LICENSE](../LICENSE).
 
-Last updated: 2025-03-04
+Last updated: 2026-03-04

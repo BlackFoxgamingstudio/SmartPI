@@ -1,8 +1,18 @@
 part,part_number_or_model,quantity,supplier,notes
-Raspberry Pi 4 or 5,RPi4-4GB / RPi5-4GB (or 8GB),1,Official resellers,4GB+ RAM recommended
-HDMI projector 720p/1080p,720p or 1080p HDMI input,1,Surplus/retail,See repair-forward notes
+Raspberry Pi 5 (4GB) or Pi 4,RPi5-4GB / RPi4-4GB (or 8GB),1,Official resellers,Pi 5 4GB recommended for Starter Kit; Bookworm OS. 4GB+ RAM
+HDMI or VGA projector,720p/1080p/XGA HDMI or VGA,1,Surplus/retail,Thrifted/surplus OK e.g. Epson XGA. See repair-forward notes; compatibility matrix
 MicroSD 16GB+,Class 10 16GB+,1,Retail,Pi OS and apps
-USB or CSI camera,USB webcam or Pi Camera Module v2 / v3,1,Retail,IR-sensitive for IR pen mode
-IR pen (optional),See ir_pen/pen_bom.csv,1,See ir_pen/pen_bom.csv,For IR detector mode
-Power supply Pi 5V 3A,5V 3A USB-C (official or equivalent),1,Official or equivalent,
+USB or CSI camera,Pi Camera Module v3 or USB webcam,1,Retail,Pi Camera v3 or Bluetooth Wii Remote for IR tracking. IR-sensitive for IR pen
+IR pen,See ir_pen/pen_bom.csv,1,See ir_pen/pen_bom.csv,Student-built: IR LED momentary switch AAA holder. For IR detector mode
+Power supply Pi 5V 5A,5V 5A USB-C fused (official or equivalent),1,Official or equivalent,Isolated Pi power; see safety doc
 HDMI cable,HDMI male-male,1,Retail,Pi to projector
+micro-HDMI to HDMI adapter,micro-HDMI to HDMI cable or adapter,1,Retail,Pi 4/5 to projector when HDMI
+micro-HDMI to VGA adapter,Active micro-HDMI to VGA + 3.5mm audio,1,Retail,For VGA-only surplus projectors
+3.5mm audio cable,3.5mm male-male,1,Retail,If using adapter with audio out
+Mini tripod or table clamp,Tripod or clamp,1,Retail,Stable demo; see event/venue doc
+Camera/projector brackets,Brackets or clamps as needed,1,Retail,See hardware/camera_mount enclosure
+Power strip,With surge protection if possible,1,Retail,Safe routing at events
+Gaff tape or cable management,Velcro ties labels,1,Retail,Safe cable routing and labeling
+Backup HDMI cable,HDMI male-male,1,Retail,Contingency spares
+Backup micro-HDMI or VGA adapter,As needed,1,Retail,Contingency spares
+Portable screen or whiteboard film,Optional projection surface,1,Retail,When wall unsuitable for calibration

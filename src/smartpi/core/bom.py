@@ -1,4 +1,10 @@
-"""Load BOM (bill of materials) CSV files. Uses stdlib csv only."""
+"""Load BOM (bill of materials) CSV files. Uses stdlib csv only.
+
+The main BOM (hardware/bom.csv) supports the Starter Kit (~$215) and the
+hardware stack: Brain (Pi 5 4GB), Bridge (micro-HDMI to VGA + 3.5mm),
+Tracker (Pi Camera v3 or Wii Remote), Muscle (surplus projector), Input (IR pen).
+See project docs (e.g. docs/01_bill_of_materials.md).
+"""
 
 from __future__ import annotations
 

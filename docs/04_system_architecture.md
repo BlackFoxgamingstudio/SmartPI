@@ -4,12 +4,14 @@ High-level pipelines and data flow. Diagram sources: [diagrams/architecture.mmd]
 
 ## Pipelines
 
-1. **Capture** — Camera frames (libcamera or OpenCV) at target resolution and FPS.
+*Motion to input:* The Pi Camera or Wii Remote tracks the IR pen dot; OpenCV thresholding isolates the dot; **4-point auto-calibration** maps camera FOV to projector display; motion becomes **OS-level mouse events** (draw, click, drag) on the **Kiosk web UI** (plugin scene loaders).
+
+1. **Capture** — Pi Camera or Wii Remote; camera frames (libcamera or OpenCV) at target resolution and FPS.
 2. **Detect** — Bright point or IR blob detection → candidate (x, y) in camera space.
 3. **Track** — Temporal smoothing (EMA) and optional Kalman; single-pointer first.
-4. **Calibrate** — Map camera coordinates to projector coordinates (homography); persist to `configs/calibration.yaml`.
-5. **Interact** — Projector-space coordinates → `PointerEvent` (tap, drag, long-press) and optional adapters (Pygame, WebSocket, uinput).
-6. **Render** — Fullscreen display (e.g. Pygame) reacts to events; scene selector for Sandbox Draw, Particle Field, etc.
+4. **Calibrate** — **4-point auto-calibration** (homography) maps camera to projector; persist to `configs/calibration.yaml`.
+5. **Interact** — Projector-space coordinates → OS-level mouse events and `PointerEvent` (tap, drag, long-press); adapters (Pygame, WebSocket, uinput).
+6. **Render** — Fullscreen display and **Kiosk web UI**; scene selector for Sandbox Draw, Particle Field, plugin scenes, etc.
 7. **Operate** — Launcher with health checks, FPS overlay, and fast “recalibrate” flow.
 
 ## Why this split

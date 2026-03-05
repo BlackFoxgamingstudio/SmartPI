@@ -1,4 +1,9 @@
-"""Homography solve and persistence for camera -> projector mapping."""
+"""4-point auto-calibration: homography solve and persistence for camera -> projector mapping.
+
+Maps the camera's field of view to the projector display area via four point
+correspondences (e.g. four corners). Used in the motion-to-input pipeline
+(Capture -> Process -> Interact / Kiosk web UI).
+"""
 
 from __future__ import annotations
 

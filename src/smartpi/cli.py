@@ -1,4 +1,8 @@
-"""CLI entry point for Smart Pi. Commands: run, calibrate, healthcheck, bom."""
+"""Smart Pi Projector CLI. Commands: run, calibrate, healthcheck, bom.
+
+Pipeline: Capture (Pi Camera or Wii Remote, IR pen) → Process (OpenCV, 4-point
+auto-calibration) → Interact (OS-level mouse events, Kiosk web UI).
+"""
 
 from __future__ import annotations
 
@@ -30,7 +34,7 @@ def _load_app_config(config_dir: str = "configs") -> dict:
 @click.group()
 @click.version_option(version=__version__, prog_name="smartpi")
 def main() -> None:
-    """Smart Pi Interactive Projection — run, calibrate, healthcheck."""
+    """Smart Pi Projector — run, calibrate, healthcheck, bom."""
     pass
 
 

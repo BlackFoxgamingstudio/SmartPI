@@ -1,4 +1,9 @@
-"""Default demo app: scene selector, capture, detect, track, homography, scenes."""
+"""Default demo app for Smart Pi Projector: Kiosk web UI with plugin scene loaders.
+
+Motion to input: capture (camera/Wii Remote, IR pen) → detect → track →
+4-point auto-calibration (homography) → interact (OS-level mouse events).
+Scenes: Sandbox Draw, Particle Field, STEM Widgets (plugin scene loaders).
+"""
 
 from __future__ import annotations
 
@@ -71,7 +76,7 @@ def run_app(fullscreen: bool = False, config_dir: str = "configs") -> None:
         screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     else:
         screen = pygame.display.set_mode((proj_w, proj_h), pygame.RESIZABLE)
-    pygame.display.set_caption("Smart Pi")
+    pygame.display.set_caption("Smart Pi Projector")
     width, height = screen.get_size()
 
     use_libcamera = config.get("use_libcamera", False)

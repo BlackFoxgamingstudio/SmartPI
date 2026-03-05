@@ -6,7 +6,7 @@
 
 > **Before publishing:** Replace `YOUR_ORG` (and `YOUR_GITHUB_USERNAME` in [CODEOWNERS](.github/CODEOWNERS)) in this README, [CONTRIBUTING.md](CONTRIBUTING.md), and [CITATION.cff](CITATION.cff) with your GitHub org/user and repo details.
 
-Camera-based interactive projection on Raspberry Pi: use an IR pen or bright pointer to draw and interact with projected visuals. Designed for hackathon demos, workshops, and replicable installations.
+**Smart Pi Projector** (Smart Pi) is a repair-forward, portable interactive projection system that turns a surplus projector and a Raspberry Pi into an interactive display for **creative collaboration and STEM learning**—*upcycling e-waste into interactive, open-source classrooms*. Equip 10 rooms for ~$2,150 instead of $20,000 with the Starter Kit (~$215 per kit). Use an IR pen or bright pointer to draw and interact with projected visuals on any flat wall (Kiosk web UI, plugin scene loaders). Designed for hackathon demos, workshops, classrooms, and replicable installations.
 
 ## Table of contents
 
@@ -28,7 +28,7 @@ Smart Pi is maintained by the community. See [MAINTAINERS.md](MAINTAINERS.md) an
 
 ## Why this project exists
 
-Surplus projectors and a Pi can become an interactive wall or table without touch hardware. This project provides the full pipeline: capture camera frames, detect a pointer (IR pen or laser/bright spot), calibrate camera-to-projector mapping, and drive Pygame (or other) visuals. You get a working demo and a structure others can extend.
+Surplus projectors and a Pi can become an interactive wall or table without touch hardware. This project is **intentionally open-ended** so collaborators can contribute to **hardware rigging, interaction design, creative visuals/sound, and fast calibration UX**. There is **no vendor lock-in**—districts own their hardware. The true product is a **community-maintained ecosystem**. The pipeline: capture camera frames, detect a pointer (IR pen or laser/bright spot), calibrate camera-to-projector mapping, and drive Pygame (or other) visuals. See [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/00_overview.md](docs/00_overview.md)#ways-to-contribute for ways to contribute.
 
 ## What it does
 
@@ -69,6 +69,8 @@ smartpi run
 
 ## Documentation
 
+**Project handbook (single-page):** [index.html](index.html) is a readable handbook with a Q&A chatbot. Open it over HTTP so the chatbot can load its data: from the repo root run `python3 -m http.server 8080` and visit http://localhost:8080/index.html. Opening the file directly from disk (file://) will show the handbook but the Q&A dataset will not load (browser security).
+
 | Doc | Description |
 |-----|-------------|
 | [00_overview](docs/00_overview.md) | Overview and where to start |
@@ -85,11 +87,14 @@ smartpi run
 | [Diagrams](docs/diagrams/README.md) | Architecture and calibration flow (Mermaid) |
 | [Demo walkthrough](docs/demo_walkthrough/) | Showcase script, operator checklist |
 | [00_best_practices](docs/00_best_practices.md) | Open source best practices checklist |
+| [GAPS_AND_IMPLEMENTATION](docs/GAPS_AND_IMPLEMENTATION.md) | Gap tracking and implementation status |
 | [API overview](docs/api_overview.md) | Public API and docstrings reference |
+| [10_event_and_venue_requirements](docs/10_event_and_venue_requirements.md) | Space, power, lighting, and support for a reliable showcase |
+| [11_problem_and_value](docs/11_problem_and_value.md) | Broken EdTech Math and Smart Pi value proposition |
 
 ## Scope
 
-- **In scope:** Raspberry Pi (4/5 recommended), Linux (Raspberry Pi OS or compatible), camera-based pointer tracking (IR pen or bright spot), homography calibration, Pygame demo scenes, kiosk-style operation, BOM and build guide for replication.
+- **In scope:** Raspberry Pi (4/5 recommended), Linux (Raspberry Pi OS or compatible), camera-based pointer tracking (IR pen or bright spot), 4-point homography calibration, Pygame demo scenes, **portable demo rig**, **STEM learning** (ruler, angles, graph-paper scene), **Starter Kit / Smart Kit** cost target (~$215), Kiosk web UI and plugin scene loaders, BOM and build guide for replication.
 - **Out of scope:** Windows/macOS host support; official pre-built hardware kits; guaranteed real-time performance for safety-critical use; commercial support or SLAs.
 
 ## Known issues and support

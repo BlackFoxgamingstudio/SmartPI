@@ -1,6 +1,16 @@
 # Bill of Materials (BOM)
 
-**Canonical** here means the authoritative part list for building the Smart Pi setup; replicate from this list for a supported build. For a machine-readable list with part numbers or model IDs, see [hardware/bom.csv](../hardware/bom.csv) (columns: part, part_number_or_model, quantity, supplier, notes). You can print the BOM from the CLI: `smartpi bom` (and `smartpi bom --pen` for the IR pen BOM). The Python API is in `smartpi.core.bom`: `load_bom(path)`, `load_main_bom(repo_root)`, `load_pen_bom(repo_root)` — see [api_overview.md](api_overview.md).
+**Canonical** here means the authoritative part list for building the Smart Pi setup; replicate from this list for a supported build. The BOM supports the **Starter Kit** (Smart Kit) target of **~$215 per kit** — equip 10 classrooms for ~$2,150 instead of $20,000 with traditional EdTech. For a machine-readable list, see [hardware/bom.csv](../hardware/bom.csv). Print from CLI: `smartpi bom` (and `smartpi bom --pen` for the IR pen BOM). API: `smartpi.core.bom` — see [api_overview.md](api_overview.md).
+
+## Hardware stack (PDF-aligned)
+
+| Role | Component | Notes |
+|------|-----------|--------|
+| **Brain** | Raspberry Pi 5 (4GB) or Pi 4 | Bookworm OS recommended |
+| **Bridge** | Active micro-HDMI to VGA (or HDMI) adapter, 3.5mm audio | Pi to projector; surplus projectors often VGA |
+| **Tracker** | Pi Camera v3 or Bluetooth Wii Remote | IR tracking for pen dot |
+| **Muscle** | Surplus/thrifted projector | e.g. Epson XGA 1024×768; see [compatibility](#compatibility-matrix) |
+| **Input** | Student-built IR pen | IR LED, momentary switch, AAA holder — see [hardware/ir_pen](../hardware/ir_pen/) |
 
 ## Compute and display
 
@@ -37,8 +47,29 @@
 
 ## Cables and misc
 
-- HDMI cable (Pi → projector).
+- HDMI cable (Pi → projector). **Video adapters:** micro-HDMI to HDMI (Pi 4/5); micro-HDMI to VGA (active) + 3.5mm audio if the surplus projector has only VGA.
 - USB cable for camera if USB.
 - (Optional) Short USB cable for IR pen if powered from Pi.
 
-Last updated: 2025-03-04
+## Mounting and rigging
+
+- Tripod, table clamp, or brackets for camera and projector so the demo is stable. See [hardware/camera_mount](../hardware/camera_mount/), [hardware/enclosure](../hardware/enclosure/). For event/showcase needs see [10_event_and_venue_requirements.md](10_event_and_venue_requirements.md).
+
+## Power and safety
+
+- **Raspberry Pi:** Fused 5V/5A USB-C (isolated from projector). See [08_safety_and_power.md](08_safety_and_power.md).
+- Power strip (and extension cord if needed), gaff tape or cable management, labels for cables.
+
+## Contingency spares
+
+- Backup HDMI cable and backup adapter(s) to avoid single-point failure during a hackathon or showcase.
+
+## Projection surface (optional)
+
+- Portable screen material or whiteboard film when the venue wall is not suitable for consistent calibration.
+
+## Compatibility matrix
+
+- Maintain a **compatibility matrix** of known-good projector models (e.g. Epson EMP-83H) with lamp IDs where relevant. Centralizing a small buffer (30–50 units) helps mitigate inconsistent projector supply. See [03_repair_forward_notes.md](03_repair_forward_notes.md) for surplus sourcing.
+
+Last updated: 2026-03-04

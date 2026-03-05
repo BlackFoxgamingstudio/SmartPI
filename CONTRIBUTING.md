@@ -67,6 +67,16 @@ To add sample frames or videos for offline/CI testing:
 - Keep files small (e.g. a few KB per frame) so the repo stays light.
 - Document in a PR that the samples are for regression tests; avoid committing large binaries.
 
+### Handbook and chatbot
+
+The project handbook is **index.html** (single-file). The chatbot Q&A source is **handbook_chatbot.csv**. A copy of the CSV is embedded in index.html so the chatbot works when the page is opened via file:// or when fetch fails. **After editing handbook_chatbot.csv**, run from repo root:
+
+```bash
+python3 scripts/sync_chatbot_csv_to_index.py
+```
+
+so the embedded block stays in sync. See [docs/GAPS_AND_IMPLEMENTATION.md](docs/GAPS_AND_IMPLEMENTATION.md) for gap tracking and this process.
+
 ### Code Style
 
 - **Python:** We use [Ruff](https://docs.astral.sh/ruff/) for linting and [Black](https://black.readthedocs.io/) for formatting.

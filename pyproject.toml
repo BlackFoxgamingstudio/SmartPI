@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "smartpi"
 version = "0.1.0"
-description = "Smart Pi Interactive Projection — camera-based IR pen / bright-point tracking for interactive projection on Raspberry Pi"
+description = "Smart Pi Projector (Smart Pi) — camera-based IR pen / bright-point tracking for interactive projection on Raspberry Pi. Starter Kit ~$215; upcycling e-waste into interactive, open-source classrooms."
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.10"
 authors = [{ name = "Smart Pi Contributors" }]
-keywords = ["raspberry-pi", "projection", "interactive", "calibration", "IR-pen", "computer-vision"]
+keywords = ["raspberry-pi", "projection", "interactive", "calibration", "IR-pen", "computer-vision", "open-source", "classroom", "touchscreen-whiteboard", "kiosk"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "License :: OSI Approved :: MIT License",

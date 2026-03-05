@@ -1,6 +1,6 @@
 # API Overview
 
-High-level reference for the Smart Pi public API.
+High-level reference for the Smart Pi public API. The pipeline translates **motion to input**: Capture (Pi Camera or Wii Remote, IR pen dot) → Process (OpenCV thresholding, 4-point auto-calibration) → Interact (OS-level mouse events on the Kiosk web UI). See [04_system_architecture.md](04_system_architecture.md).
 
 **Public API:** Symbols listed below (modules, classes, and functions without a leading `_`) in `smartpi.*` are the supported public surface. Names starting with `_` (e.g. `_load_config`) are internal and may change without notice. Prefer the public entry points (`run_app`, `run_wizard`, CLI commands, and the symbols in the tables).
 
