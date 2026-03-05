@@ -1,0 +1,97 @@
+Metadata-Version: 2.4
+Name: smartpi
+Version: 0.1.0
+Summary: Smart Pi Interactive Projection — camera-based IR pen / bright-point tracking for interactive projection on Raspberry Pi
+Author: Smart Pi Contributors
+License: MIT
+Keywords: raspberry-pi,projection,interactive,calibration,IR-pen,computer-vision
+Classifier: Development Status :: 3 - Alpha
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=1.24
+Requires-Dist: opencv-python-headless>=4.8
+Requires-Dist: pygame>=2.5
+Requires-Dist: PyYAML>=6.0
+Requires-Dist: click>=8.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0; extra == "dev"
+Requires-Dist: ruff>=0.1.0; extra == "dev"
+Requires-Dist: black>=23.0; extra == "dev"
+Requires-Dist: mypy>=1.0; extra == "dev"
+Dynamic: license-file
+
+# Smart Pi Interactive Projection
+
+Camera-based interactive projection on Raspberry Pi: use an IR pen or bright pointer to draw and interact with projected visuals. Designed for hackathon demos, workshops, and replicable installations.
+
+## Who maintains this
+
+Smart Pi is maintained by the community. See [MAINTAINERS.md](MAINTAINERS.md) and [CONTRIBUTING.md](CONTRIBUTING.md) for how to contribute and get help.
+
+## Why this project exists
+
+Surplus projectors and a Pi can become an interactive wall or table without touch hardware. This project provides the full pipeline: capture camera frames, detect a pointer (IR pen or laser/bright spot), calibrate camera-to-projector mapping, and drive Pygame (or other) visuals. You get a working demo and a structure others can extend.
+
+## What it does
+
+- **Capture** — Camera frames via libcamera/OpenCV  
+- **Detect** — IR blob or visible bright-point detection  
+- **Track** — Single-pointer smoothing (EMA, optional Kalman)  
+- **Calibrate** — 4-point homography, persist to config  
+- **Interact** — Pointer events (tap, drag, long-press) and adapters (Pygame, WebSocket)  
+- **Render** — Sandbox Draw and Particle Field demo scenes  
+- **Operate** — Kiosk launcher, healthcheck, recalibrate flow  
+
+## Requirements
+
+- **Hardware:** Raspberry Pi 4/5 (recommended), HDMI projector, camera (USB or CSI). For IR mode: IR pen and optionally IR-pass filter.
+- **OS:** Raspberry Pi OS (or compatible Linux).
+- **Software:** Python 3.10+, OpenCV, Pygame, NumPy, PyYAML. See [docs/02_build_guide.md](docs/02_build_guide.md) and [docs/01_bill_of_materials.md](docs/01_bill_of_materials.md).
+
+## Get started
+
+```bash
+git clone https://github.com/YOUR_ORG/rashbarrypi.git
+cd rashbarrypi
+make install
+# On Pi: connect camera and projector, then:
+make run
+```
+
+For a full setup (Pi, projector, camera, calibration), follow the [Build guide](docs/02_build_guide.md) and use the [Bill of materials](docs/01_bill_of_materials.md) (BOM).
+
+**Quick run (no hardware):** `make run` starts the app; without a camera or calibration, you may see only the overlay or a placeholder.
+
+## Documentation
+
+| Doc | Description |
+|-----|-------------|
+| [00_overview](docs/00_overview.md) | Overview and where to start |
+| [01_bill_of_materials](docs/01_bill_of_materials.md) | Parts list (projector, camera, IR pen, mounts) |
+| [02_build_guide](docs/02_build_guide.md) | Step-by-step setup to “demo running” |
+| [04_system_architecture](docs/04_system_architecture.md) | Pipelines and data flow |
+| [05_calibration_ux](docs/05_calibration_ux.md) | Calibration steps and troubleshooting |
+| [07_troubleshooting](docs/07_troubleshooting.md) | No camera, low FPS, bad alignment, lighting |
+| [00_best_practices](docs/00_best_practices.md) | Open source best practices checklist |
+
+## Known issues and support
+
+- **Known issues:** See [ROADMAP.md](ROADMAP.md) and [docs/07_troubleshooting.md](docs/07_troubleshooting.md). Report bugs via [GitHub Issues](https://github.com/YOUR_ORG/rashbarrypi/issues) using the bug report template.
+- **Support level:** Community, best-effort. We aim to triage issues within a few days (see [CONTRIBUTING.md](CONTRIBUTING.md)).
+
+## Changelog and contributing
+
+- [CHANGELOG.md](CHANGELOG.md) — Release history  
+- [CONTRIBUTING.md](CONTRIBUTING.md) — How to contribute, code style, PR process  
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — Community standards  
+
+## License
+
+MIT. See [LICENSE](LICENSE).

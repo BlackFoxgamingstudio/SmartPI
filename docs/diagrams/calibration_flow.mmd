@@ -1,0 +1,11 @@
+flowchart TD
+  Start[Start Calibration] --> Project[Project 4 Corner Targets]
+  Project --> Tap[User Taps Each Target]
+  Tap --> Capture[Capture Camera-Space Points]
+  Capture --> Solve[Solve Homography]
+  Solve --> Save[Save to calibration.yaml]
+  Save --> Validate[Validate: Project Grid]
+  Validate --> Check{Error OK?}
+  Check -->|Yes| Done[Calibration Done]
+  Check -->|No| Retry[Suggest Recalibrate]
+  Retry --> Project

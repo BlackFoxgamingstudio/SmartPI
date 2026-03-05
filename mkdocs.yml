@@ -1,0 +1,25 @@
+# MkDocs config for docs site. Build with: mkdocs build
+site_name: Smart Pi Interactive Projection
+site_description: Camera-based interactive projection on Raspberry Pi
+docs_dir: docs
+site_dir: site
+nav:
+  - Overview: 00_overview.md
+  - Best practices: 00_best_practices.md
+  - Bill of materials: 01_bill_of_materials.md
+  - Build guide: 02_build_guide.md
+  - Repair notes: 03_repair_forward_notes.md
+  - System architecture: 04_system_architecture.md
+  - Calibration UX: 05_calibration_ux.md
+  - Interaction design: 06_interaction_design.md
+  - Troubleshooting: 07_troubleshooting.md
+  - Safety and power: 08_safety_and_power.md
+  - Accessibility: 09_accessibility_and_inclusion.md
+  - Config reference: config_reference.md
+  - API overview: api_overview.md
+  - Technical deep dives: technical/README.md
+  - Diagrams: diagrams/README.md
+  - ADR: adr/README.md
+  - Demo:
+    - Showcase script: demo_walkthrough/showcase_script.md
+    - Operator checklist: demo_walkthrough/operator_checklist.md

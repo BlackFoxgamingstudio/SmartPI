@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Smart Pi Interactive Projection — Project Handbook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=DM+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* === Design tokens: typography, spacing, color === */
+    :root {
+      --bg: #0f0f12;
+      --surface: #1a1a1f;
+      --border: #2a2a32;
+      --text: #e8e6e3;
+      --text-muted: #a8a49f;
+      --accent: #c9a227;
+      --accent-dim: #8b7320;
+      --link: #d4af37;
+      --code-bg: #25252c;
+      --radius: 6px;
+      /* Type scale (Major Third ~1.25) */
+      --text-xs: 0.8rem;
+      --text-sm: 0.9rem;
+      --text-base: 1.0625rem;
+      --text-lg: 1.25rem;
+      --heading-3: 1.25rem;
+      --heading-2: 1.563rem;
+      --heading-1: 1.953rem;
+      /* Spacing */
+      --space-paragraph: 1em;
+      --space-section: 2.5rem;
+      --line-height-body: 1.65;
+      --line-height-heading: 1.3;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+    body {
+      margin: 0;
+      font-family: "DM Sans", system-ui, sans-serif;
+      font-size: var(--text-base);
+      line-height: var(--line-height-body);
+      color: var(--text);
+      background: var(--bg);
+    }
+    .handbook {
+      max-width: min(52rem, 70ch);
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+    }
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 2rem 1.5rem;
+      margin-bottom: 2rem;
+    }
+    header .wrap { max-width: min(52rem, 70ch); margin: 0 auto; padding: 0 1.5rem; }
+    h1 {
+      font-family: "DM Serif Text", serif;
+      font-size: var(--heading-1);
+      font-weight: 400;
+      line-height: var(--line-height-heading);
+      margin: 0 0 0.25em;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+    header p { margin: 0; color: var(--text-muted); font-size: var(--text-sm); }
+    nav {
+      position: sticky;
+      top: 0;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1.5rem;
+      z-index: 10;
+    }
+    nav .wrap { max-width: min(52rem, 70ch); margin: 0 auto; padding: 0 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; align-items: center; min-height: 2.75rem; }
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: var(--text-sm);
+      padding: 0.5em 0.25em;
+      min-block-size: 2.75rem;
+      display: inline-flex;
+      align-items: center;
+    }
+    nav a:hover { color: var(--link); }
+    nav a:focus-visible {
+      outline: 2px solid var(--link);
+      outline-offset: 2px;
+    }
+    h2 {
+      font-family: "DM Serif Text", serif;
+      font-size: var(--heading-2);
+      font-weight: 400;
+      line-height: var(--line-height-heading);
+      margin-block: var(--space-section) 0.5em;
+      margin-inline: 0;
+      padding-top: 0.5rem;
+      color: var(--accent);
+      border-top: 1px solid var(--border);
+      letter-spacing: -0.01em;
+      text-wrap: balance;
+    }
+    h2:first-of-type { margin-top: 0; border-top: 0; padding-top: 0; }
+    h3 {
+      font-size: var(--heading-3);
+      font-weight: 600;
+      line-height: var(--line-height-heading);
+      margin-block: 1.5em 0.5em;
+      margin-inline: 0;
+      color: var(--text);
+      text-wrap: balance;
+    }
+    h4 {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      line-height: var(--line-height-heading);
+      margin-block: 1.25em 0.4em;
+      margin-inline: 0;
+      color: var(--text-muted);
+    }
+    p { margin: 0 0 var(--space-paragraph); }
+    h2 + p, h3 + p { margin-top: 0.25em; }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    a:focus { outline: none; }
+    a:focus-visible {
+      outline: 2px solid var(--link);
+      outline-offset: 2px;
+    }
+    ::selection {
+      background: var(--accent-dim);
+      color: var(--text);
+    }
+    code, kbd {
+      font-family: ui-monospace, monospace;
+      font-size: 0.9em;
+      background: var(--code-bg);
+      padding: 0.15em 0.4em;
+      border-radius: var(--radius);
+    }
+    code { white-space: nowrap; }
+    pre {
+      background: var(--code-bg);
+      padding: 1rem;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 1rem 0;
+      font-size: var(--text-sm);
+      line-height: 1.5;
+      border: 1px solid var(--border);
+    }
+    pre code { background: none; padding: 0; white-space: pre; overflow-wrap: normal; }
+    kbd { border: 1px solid var(--border); box-shadow: 0 1px 0 var(--border); }
+    .term { font-weight: 600; color: var(--accent-dim); font-size: var(--text-lg); }
+    .index-list { list-style: none; padding: 0; margin: 1rem 0; }
+    .index-list li { margin: 0.5rem 0; }
+    .index-list li + li { margin-top: 0.75rem; }
+    .index-list a {
+      color: var(--text);
+      padding: 0.35em 0;
+      display: inline-block;
+      min-block-size: 2.75rem;
+      line-height: 2;
+    }
+    .index-list a:hover { color: var(--link); }
+    .index-list a:focus-visible {
+      outline: 2px solid var(--link);
+      outline-offset: 2px;
+    }
+    .glossary-entry {
+      margin-block-end: 2rem;
+      scroll-margin-top: 6rem;
+    }
+    .glossary-entry .term { display: block; margin-block-end: 0.25rem; }
+    section {
+      scroll-margin-top: 6rem;
+    }
+    section:target { outline: 2px solid var(--accent-dim); outline-offset: 4px; }
+    blockquote {
+      border-left: 3px solid var(--accent-dim);
+      margin: 1rem 0;
+      padding-left: 1rem;
+      color: var(--text-muted);
+    }
+    .outcomes blockquote {
+      border-left: 3px solid var(--accent-dim);
+      margin: 1rem 0;
+      padding-left: 1rem;
+      color: var(--text-muted);
+    }
+    .step { margin-block: 1rem 1.5rem; }
+    footer {
+      margin-top: var(--space-section);
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+    }
+    @media (prefers-contrast: high) {
+      nav a:hover, .index-list a:hover { text-decoration: underline; }
+      :root { --border: #3a3a44; }
+    }
+    @media (max-width: 640px) {
+      .handbook { padding-left: 1rem; padding-right: 1rem; }
+      header .wrap, nav .wrap { padding-left: 1rem; padding-right: 1rem; }
+      body { font-size: clamp(1rem, 0.95rem + 0.25vw, var(--text-base)); }
+    }
+    @media print {
+      .skip-link, nav { display: none !important; }
+      body { background: #fff; color: #1a1a1a; }
+      a { color: #0d47a1; }
+      .handbook { max-width: none; }
+      h2 { page-break-after: avoid; color: #333; border-top-color: #ccc; }
+      h3 { page-break-after: avoid; color: #333; }
+      h4 { page-break-after: avoid; color: #444; }
+      section { scroll-margin-top: 0; }
+      .term { color: #5d4e37; }
+      code, pre { background: #f5f5f5; color: #333; border-color: #ddd; }
+      blockquote { border-left-color: #999; color: #555; }
+      footer { border-top-color: #ccc; color: #666; }
+    }
+    .skip-link {
+      position: absolute;
+      top: -4rem;
+      left: 1rem;
+      z-index: 100;
+      padding: 0.75rem 1rem;
+      background: var(--surface);
+      color: var(--link);
+      text-decoration: none;
+      border: 2px solid var(--link);
+      border-radius: var(--radius);
+      font-size: var(--text-sm);
+      font-weight: 600;
+    }
+    .skip-link:focus {
+      top: 1rem;
+      outline: none;
+    }
+    .skip-link:focus-visible {
+      top: 1rem;
+      outline: 2px solid var(--link);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <header>
+    <div class="wrap">
+      <h1>Smart Pi Interactive Projection</h1>
+      <p>Project handbook — get started, install, config, outcomes, and full technical reference for contributors and the open source community.</p>
+    </div>
+  </header>
+  <nav aria-label="Handbook navigation">
+    <div class="wrap">
+      <a href="#index">Index</a>
+      <a href="#glossary">Glossary</a>
+      <a href="#get-started">Get started</a>
+      <a href="#install">Install</a>
+      <a href="#config">Config</a>
+      <a href="#outcomes">Outcomes</a>
+      <a href="#pipeline">Pipeline</a>
+      <a href="#functions">Functions &amp; logic</a>
+      <a href="#documentation">Documentation</a>
+      <a href="#contributing">Contributing</a>
+    </div>
+  </nav>
+  <main id="main-content" class="handbook">
+    <section id="index" aria-labelledby="index-heading">
+      <h2 id="index-heading">Index: terms, concepts, and steps</h2>
+      <p>This index lists every major term, concept, and procedural step used in the Smart Pi project. A <strong>procedural step</strong> is a numbered action in a flow (e.g. “tap corner 1” in calibration, “run healthcheck” in the build guide). Each item is defined in the Glossary and used in the Get started, Install, Config, and Pipeline sections so that new contributors and implementers share a single vocabulary. When adding new terms or steps, update both this index and the Glossary.</p>
+      <p>Concepts are ordered by how they appear in the system: hardware and setup first, then configuration, then the software pipeline (capture through operate), and finally community and release.</p>
+      <ul class="index-list" aria-label="Index of terms">
+        <li><a href="#glossary-raspberry-pi">Raspberry Pi</a></li>
+        <li><a href="#glossary-projector-calibration">Projector and calibration</a></li>
+        <li><a href="#glossary-camera-pointer">Camera and pointer (IR pen, bright point)</a></li>
+        <li><a href="#glossary-bom">Bill of materials (BOM)</a></li>
+        <li><a href="#glossary-config-profiles">Configuration and profiles</a></li>
+        <li><a href="#glossary-capture-detect-track">Capture, detect, track</a></li>
+        <li><a href="#glossary-homography-calibration">Homography and calibration.yaml</a></li>
+        <li><a href="#glossary-homography-matrix">Homography matrix</a></li>
+        <li><a href="#glossary-ema">EMA (exponential moving average)</a></li>
+        <li><a href="#glossary-bgr">BGR and camera frame</a></li>
+        <li><a href="#glossary-contour-blob">Contour and blob</a></li>
+        <li><a href="#glossary-pointerevent-gestures">PointerEvent and gestures</a></li>
+        <li><a href="#glossary-adapter">Adapter (Pygame, WebSocket, uinput)</a></li>
+        <li><a href="#glossary-renderer-scenes">Renderer and scenes</a></li>
+        <li><a href="#glossary-scene">Scene (Sandbox Draw, Particle Field, STEM Widgets)</a></li>
+        <li><a href="#glossary-calibration-wizard">Calibration wizard</a></li>
+        <li><a href="#glossary-reprojection-error">Reprojection error</a></li>
+        <li><a href="#glossary-cli-scripts">CLI and scripts</a></li>
+        <li><a href="#glossary-healthcheck">Healthcheck and diagnostics</a></li>
+      </ul>
+    </section>
+
+    <section id="glossary" aria-labelledby="glossary-heading">
+      <h2 id="glossary-heading">Glossary: definitions of all terms and concepts</h2>
+      <p>Every keyword and concept used in this handbook is defined here in full. Use this section when you encounter an unfamiliar term in the Get started, Install, Config, or technical sections.</p>
+
+      <div class="glossary-entry" id="glossary-raspberry-pi">
+        <span class="term">Raspberry Pi</span>
+        <p>The Raspberry Pi is a single-board computer used as the compute platform for Smart Pi. We recommend a Pi 4 or Pi 5 for sufficient performance for OpenCV-based vision; a Pi Zero can run the app but will struggle (e.g. &lt; 10 FPS, reduced resolution) with real-time detection and smoothing. The Pi runs Raspberry Pi OS (or compatible Linux), drives the projector over HDMI, and reads frames from a USB or CSI camera.</p>
+      </div>
+      <div class="glossary-entry" id="glossary-projector-calibration">
+        <span class="term">Projector and calibration</span>
+        <p>The projector is the display output: it shows the interactive content (e.g. Sandbox Draw, Particle Field) on a wall or table. Calibration is the one-time (or occasional) process that establishes a mapping from camera image coordinates to projector pixel coordinates. Without calibration, a pointer detected in the camera image cannot be drawn in the correct place on the projected image. Calibration is done by having the user tap four known corner targets; the software solves a homography from those four point correspondences and saves the result to <code>configs/calibration.yaml</code>.</p>
+      </div>
+      <div class="glossary-entry" id="glossary-camera-pointer">
+        <span class="term">Camera and pointer (IR pen, bright point)</span>
+        <p>The camera captures video of the projected surface. The pointer is the object the user moves to interact: either an IR pen (an infrared LED at the tip, visible to an IR-sensitive camera) or a bright visible spot (e.g. laser or LED). The software detects the pointer in each frame and produces a single (x, y) position in camera image space, which is then mapped to projector space via the calibration homography. IR mode is generally more robust under varying room light; bright-point mode is simpler to source (any webcam and laser pointer).</p>
+      </div>
+      <div class="glossary-entry" id="glossary-bom">
+        <span class="term">Bill of materials (BOM)</span>
+        <p>The bill of materials is the canonical list of parts needed to build the setup: Pi, projector, camera, cables, optional IR pen and mounts. The project provides <code>hardware/bom.csv</code> and the doc <code>docs/01_bill_of_materials.md</code> so that anyone can replicate the hardware without guessing. The BOM includes quantities, supplier notes, and references to sub-assemblies (e.g. IR pen parts in <code>hardware/ir_pen/pen_bom.csv</code>).</p>
+      </div>
+      <div class="glossary-entry" id="glossary-config-profiles">
+        <span class="term">Configuration and profiles</span>
+        <p>Configuration is stored in YAML files under <code>configs/</code>. The main app config is <code>configs/app.yaml</code>: it specifies camera index, resolution, detector type (IR or bright), detection threshold, and a profile name. Profiles (e.g. <code>configs/profiles/classroom.yaml</code>, <code>dark_room.yaml</code>, <code>daylight.yaml</code>) override threshold and blur for different lighting. The app loads <code>app.yaml</code> and merges the chosen profile so that one logical config dict drives capture, detection, and display. Calibration output is written to <code>configs/calibration.yaml</code> (gitignored); its schema is documented in <code>configs/calibration.yaml.example</code>.</p>
+      </div>
+      <div class="glossary-entry" id="glossary-capture-detect-track">
+        <span class="term">Capture, detect, track</span>
+        <p>Capture is the layer that reads frames from the camera (OpenCV or libcamera) at a target resolution and frame rate. Detect is the layer that, given one frame, finds the pointer: either the brightest IR blob (contour-based) or the brightest pixel (for visible bright point). It outputs one (x, y) in camera coordinates or none. Track is the layer that smooths the (x, y) stream over time using an exponential moving average (EMA) and optional velocity clamping so the cursor does not jitter or jump when the pointer is briefly lost.</p>
+      </div>
+      <div class="glossary-entry" id="glossary-homography-calibration">
+        <span class="term">Homography and calibration.yaml</span>
+        <p>A homography is a 3×3 matrix that maps points in one plane (the camera image) to points in another plane (the projector image). Smart Pi uses a 4-point homography: the user taps four corners in a fixed order, the app records the four camera-space points, and OpenCV’s <code>findHomography</code> computes the matrix. The matrix and the projector resolution at calibration time are saved to <code>configs/calibration.yaml</code>. At runtime, every detected camera (x, y) is transformed with this matrix to get projector (x, y) for drawing and events.</p>
+      </div>
+      <div class="glossary-entry" id="glossary-pointerevent-gestures">
+        <span class="term">PointerEvent and gestures</span>
+        <p>A PointerEvent is the normalized event emitted by the interaction layer: it has (x, y) in projector space, a state (down, move, or up), a timestamp, and optional confidence. The gesture layer turns the stream of positions (or “pointer lost”) into a stream of PointerEvents: pointer appears → down; pointer moves → move; pointer disappears → up. Higher-level gestures (tap, drag, long-press) are derived from short sequences of these events (e.g. down then up within a time and distance threshold is a tap). Adapters (Pygame, WebSocket, uinput) consume PointerEvents and deliver them to scenes or external clients.</p>
+      </div>
+      <div class="glossary-entry" id="glossary-renderer-scenes">
+        <span class="term">Renderer and scenes</span>
+        <p>The renderer is the main application loop: it owns the camera capture, runs the detector and tracker, applies the homography, emits pointer events, and draws the active scene plus an optional overlay (FPS, threshold, pointer position). Scenes are the interactive content: Sandbox Draw (draw with the pointer, corner hotzone to change color), Particle Field (pointer pushes particles), and STEM Widgets (ruler, angles, graph paper). The scene receives pointer events as dicts and implements <code>on_pointer</code> and <code>draw</code> (and optionally <code>update</code> for animation).</p>
+      </div>
+      <div class="glossary-entry" id="glossary-cli-scripts">
+        <span class="term">CLI and scripts</span>
+        <p>The CLI is the command-line entry point: <code>smartpi run</code>, <code>smartpi calibrate</code>, <code>smartpi bom</code>, <code>smartpi healthcheck</code>, <code>smartpi export-diagnostics</code>. Scripts in <code>scripts/</code> wrap these: <code>install_pi.sh</code> installs Python dependencies, <code>healthcheck.sh</code> runs display and camera checks, <code>calibrate.sh</code> and <code>run_demo.sh</code> delegate to the CLI. Services (systemd unit, autostart .desktop) allow the app to start on boot for kiosk use.</p>
+      </div>
+      <div class="glossary-entry" id="glossary-healthcheck">
+        <span class="term">Healthcheck and diagnostics</span>
+        <p>Healthcheck verifies that the camera is detectable and reports resolution and FPS (and optionally CPU temperature on the Pi). It uses the same config as the app so that the same camera and resolution are tested. Diagnostics export bundles system info and config (excluding calibration and secrets) into a tarball for bug reports; it is implemented by <code>smartpi export-diagnostics</code> and <code>scripts/export_diagnostics.sh</code>.</p>
+      </div>
+      <div class="glossary-entry" id="glossary-homography-matrix">
+        <span class="term">Homography matrix</span>
+        <p>The homography matrix is a 3×3 matrix of real numbers that maps two-dimensional points in the camera image plane to two-dimensional points in the projector image plane. OpenCV’s <code>findHomography</code> computes it from four point correspondences (four camera points and four projector points). At runtime, each detected (x, y) in camera space is converted to homogeneous coordinates, multiplied by the matrix, and then dehomogenized to get (px, py) in projector space. The matrix is stored in <code>configs/calibration.yaml</code> in row-major order.</p>
+      </div>
+      <div class="glossary-entry" id="glossary-ema">
+        <span class="term">EMA (exponential moving average)</span>
+        <p>Exponential moving average is the smoothing method used by the tracker. The tracker maintains a current position; when a new detection arrives, the position is updated as a weighted blend of the old position and the new point (e.g. <code>new = alpha * detected + (1 - alpha) * old</code>). This reduces jitter when the detector’s raw output varies frame-to-frame. When the pointer is lost (no detection), the tracker can hold the last position for a short time or reset; the exact behavior is defined in the vision tracking module.</p>
+      </div>
+      <div class="glossary-entry" id="glossary-bgr">
+        <span class="term">BGR and camera frame</span>
+        <p>BGR is the pixel format used by OpenCV for color images: each pixel has three channels in Blue-Green-Red order. The camera capture layer returns frames in BGR (or grayscale if configured). The detection layer typically converts the frame to grayscale before thresholding; for IR or bright-point detection, a single channel is sufficient. The projector output is driven by the renderer (e.g. Pygame surface), which uses its own color representation; the pipeline does not store BGR beyond the capture and detect steps.</p>
+      </div>
+      <div class="glossary-entry" id="glossary-contour-blob">
+        <span class="term">Contour and blob</span>
+        <p>In image processing, a contour is the boundary of a connected region of pixels (e.g. after thresholding). A blob is a contiguous region; in Smart Pi the IR detector finds blobs by thresholding the image, optionally applying morphological operations, and then finding contours. The “brightest” or largest blob is chosen as the pointer; its centroid (or peak) gives the (x, y) in camera coordinates. The bright-point detector may use a simpler method (e.g. global max pixel) instead of contours.</p>
+      </div>
+      <div class="glossary-entry" id="glossary-adapter">
+        <span class="term">Adapter (Pygame, WebSocket, uinput)</span>
+        <p>An adapter is the component that receives the stream of PointerEvents from the interaction layer and delivers them to a consumer. The Pygame adapter injects events into the Pygame event queue or calls the scene’s <code>on_pointer</code> directly so that the built-in scenes (Sandbox Draw, Particle Field) receive (x, y) and state. The WebSocket adapter serializes events and sends them over a socket so that a web front-end or another process can drive visuals. The uinput adapter (Linux) creates a virtual mouse or touch device and emits kernel input events so that the pointer controls the system cursor or touch events. Swapping adapters does not require changing scene logic.</p>
+      </div>
+      <div class="glossary-entry" id="glossary-scene">
+        <span class="term">Scene (Sandbox Draw, Particle Field, STEM Widgets)</span>
+        <p>A scene is one interactive application shown by the renderer. Sandbox Draw lets the user draw with the pointer and change colors via a corner hotzone. Particle Field simulates particles that are pushed by the pointer. STEM Widgets provide ruler, angles, and graph-paper tools. Each scene implements the same interface: it receives pointer events (down, move, up) and optionally time-step updates, and it draws to the renderer’s surface. The renderer runs one scene at a time; scene selection is part of the run flow (e.g. menu or CLI argument).</p>
+      </div>
+      <div class="glossary-entry" id="glossary-calibration-wizard">
+        <span class="term">Calibration wizard</span>
+        <p>The calibration wizard is the user-facing flow that produces <code>configs/calibration.yaml</code>. It projects four corner targets on the surface; the user taps each target with the IR pen or holds the pointer steady. The app records the pointer position in camera space for each corner, then solves the homography from the four point correspondences and saves the result. Optionally it runs a validation step (e.g. crosshair grid and reprojection error check). The wizard is designed to be completable in under two minutes with large “Next” buttons and minimal typing.</p>
+      </div>
+      <div class="glossary-entry" id="glossary-reprojection-error">
+        <span class="term">Reprojection error</span>
+        <p>Reprojection error measures how well the calibration fits the data: for a known point in projector space, we transform it back to camera space using the inverse homography, then compare to the actual camera-space detection. Alternatively we project camera points to projector space and compare to the expected projector positions. A high median error (e.g. above a threshold like 15 px at 1080p) indicates poor alignment; the app can warn the user to re-run calibration or adjust camera position. The exact formula and threshold are documented in the vision calibration and troubleshooting docs.</p>
+      </div>
+    </section>
+
+    <section id="get-started" aria-labelledby="get-started-heading">
+      <h2 id="get-started-heading">Get started</h2>
+      <p>Smart Pi is designed so that a new user can go from a fresh Raspberry Pi and hardware to a running interactive demo by following a single path: prepare the Pi, install system dependencies and the project, connect the projector and camera, run a healthcheck, run the calibration wizard once, and then run the demo. This section explains that path at a high level; the Install section gives the exact commands.</p>
+      <p>You need a Raspberry Pi 4 or 5 (recommended), an HDMI projector, and a camera (USB or CSI). For the pointer you can use either an IR pen with an IR-sensitive camera or a laser or bright LED with a standard webcam. The project documentation and Bill of Materials describe both options and list parts. After you clone the repository and run the install script (or <code>pip install -r requirements.txt</code> and optionally <code>pip install -e .</code> for development), you connect the hardware and set the display resolution. Running the healthcheck script confirms that the camera is detected and reports approximate FPS. The calibration wizard then guides you through tapping four corners so the software can compute the camera-to-projector mapping; that mapping is saved and used every time you run the app. Finally, <code>smartpi run</code> (or <code>./scripts/run_demo.sh</code>) starts the interactive app: you choose a scene (e.g. Sandbox Draw or Particle Field) and interact with the pointer. No bullet list can replace the two paragraphs above: the get-started flow is a linear sequence of steps (prepare, install, connect, healthcheck, calibrate, run), each step depending on the previous one, with the goal of a working interactive projection in under an hour for a first-time user.</p>
+    </section>
+
+    <section id="install" aria-labelledby="install-heading">
+      <h2 id="install-heading">Install</h2>
+      <p>Installation has two parts: system dependencies (packages for Python, OpenCV, and Pygame) and project dependencies (the Smart Pi Python package and its pip requirements). On Raspberry Pi OS you install system packages with <code>apt</code> and project packages with <code>pip</code>. The build guide in the repository gives the exact commands; this handbook summarizes them and explains what each step provides.</p>
+      <h3>System dependencies</h3>
+      <p>First, prepare the Pi: flash Raspberry Pi OS to a microSD card, boot, and run <code>sudo apt update && sudo apt upgrade</code>. Optionally increase GPU memory via <code>raspi-config</code> for display.</p>
+      <div class="step">
+        <p>Install system packages: <code>sudo apt install -y python3-pip python3-venv libopencv-dev python3-opencv libsdl2-dev libsdl2-image-dev libportmidi-dev</code>. This provides Python 3, OpenCV (for camera and image processing), and the SDL libraries required by Pygame. If you use a CSI camera with libcamera, also install <code>libcamera-dev python3-libcamera</code>.</p>
+      </div>
+      <h3>Project install</h3>
+      <p>Clone the repo and install the project: <code>git clone https://github.com/YOUR_ORG/rashbarrypi.git</code>, <code>cd rashbarrypi</code>, then <code>./scripts/install_pi.sh</code> (which runs <code>pip install -r requirements.txt</code>) or manually <code>pip install -r requirements.txt</code>. For development you can run <code>pip install -e .</code> so that changes to the source are reflected without reinstalling. The install step does not create a virtual environment by default; you can create one with <code>python3 -m venv .venv</code> and activate it before running pip. After installation, connecting the projector and camera and disabling screen blanking completes the setup; the next step is healthcheck and calibration.</p>
+    </section>
+
+    <section id="config" aria-labelledby="config-heading">
+      <h2 id="config-heading">Config options</h2>
+      <p>All configuration is under the <code>configs/</code> directory. The main file is <code>configs/app.yaml</code>: it defines the camera device index, the capture resolution (width and height), the detector type (IR or bright), the detection threshold (0–255), and the name of the lighting profile to use.</p>
+      <h3>App config and profiles</h3>
+      <p>The profile name (e.g. <code>classroom</code>, <code>dark_room</code>, <code>daylight</code>) selects a file under <code>configs/profiles/</code>; that file’s keys are merged into the app config so that threshold, blur, and optional exposure hints can vary by environment. This design keeps a single place (app.yaml) for the camera and detector choice while allowing lighting-specific tuning without editing app.yaml.</p>
+      <h3>Calibration and logging</h3>
+      <p><code>configs/calibration.yaml</code> is produced by the calibration wizard and must not be committed to version control. It contains the homography matrix (nine floats in row-major order), optional surface bounds, and the projector resolution at calibration time. The schema is documented in <code>configs/calibration.yaml.example</code>. <code>configs/logging.yaml</code> is optional: if present, the application configures Python logging from it (level and optional log file path). The project does not expose network ports by default; if a WebSocket or HTTP server is added later, ports and URLs will be documented in the config reference and README. No bullet list is used here without explanation: the three main config concepts are (1) app plus profile for runtime behavior, (2) calibration as generated output for the homography, and (3) logging as optional observability, each serving a distinct role in the system.</p>
+    </section>
+
+    <section id="outcomes" aria-labelledby="outcomes-heading">
+      <h2 id="outcomes-heading">Project outcomes</h2>
+      <h3>Primary outcomes</h3>
+      <p>Smart Pi aims to deliver a replicable, open source interactive projection system that anyone can build with a Pi, a projector, and a camera. The primary outcome is a working demo: after following the build guide and running calibration once, the user can draw with an IR pen or laser pointer on the projected image and interact with at least two scenes (Sandbox Draw and Particle Field). A secondary outcome is a clear codebase and documentation set so that contributors can add new scenes, detectors, or renderers without rewriting the core pipeline. The roadmap (v0.1 through v1.0) describes phased outcomes: hackathon demo, workshop-ready reliability, multi-pointer support, and finally a community kit with hardware compatibility data and repair-forward guides.</p>
+      <h3>Community</h3>
+      <p>Outcomes for the community include a single vocabulary (this handbook and the glossary), a full technical documentation set (the docs folder and technical deep dives that describe every function’s inputs and outputs), and a contribution process (CONTRIBUTING.md, issue templates, CODEOWNERS) so that collaborators know how to report bugs, propose features, and submit changes. The project explicitly states scope: in scope are Raspberry Pi, Linux, camera-based pointer tracking, homography calibration, and the provided demo scenes; out of scope are Windows or macOS host support, official pre-built hardware kits, and commercial support. Defining outcomes and scope in prose (with two paragraphs here) ensures that implementers and contributors align on what “done” means and what the project will and will not do.</p>
+      <blockquote>Definition of done for v0.1: Power on Pi and projector → app can autostart → calibrate in under 2 minutes → draw and interact with particles; repository includes BOM, build guide, and documentation for adding a new scene.</blockquote>
+    </section>
+
+    <section id="pipeline" aria-labelledby="pipeline-heading">
+      <h2 id="pipeline-heading">Pipeline: services and data flow</h2>
+      <h3>Stage order</h3>
+      <p>The Smart Pi pipeline is an ordered sequence of stages: configuration loading, capture, detect, track, calibrate (apply homography), interact (emit pointer events), render (draw scenes and overlay), and operate (CLI and scripts). Each stage consumes the output of the previous stage. Configuration is loaded once at startup and provides camera index, resolution, detector type, threshold, and profile-derived options. Capture reads one frame at a time from the camera and outputs a BGR image (or a failure flag). Detect takes that frame and returns either one (x, y) in camera coordinates or none. Track takes the stream of (x, y) or none and outputs a smoothed (x, y) or none, with internal state reset when the pointer is lost. The homography (loaded from calibration) maps camera (x, y) to projector (x, y). The interaction layer turns the stream of “current pointer or none” plus “previous pointer and down state” into a stream of PointerEvents (down, move, up). Adapters convert those events into the format expected by the renderer (e.g. a dict for Pygame scenes). The renderer draws the active scene and overlay and flips the display; the operate layer is the CLI and scripts that start the app, run calibration, or run healthcheck.</p>
+      <h3>Data flow</h3>
+      <p>This order is fixed so that data flows in one direction and each component has a single responsibility. The pipeline is documented in the repository in <code>docs/04_system_architecture.md</code> and in the technical deep dives (<code>docs/technical/</code>), where every function’s inputs and outputs are specified. Implementers and contributors should read the pipeline description and the glossary entries for Capture, Detect, Track, Homography, PointerEvent, and Renderer so that new code fits the existing contracts. No bullet list stands alone: the two paragraphs above explain the full order and the role of each stage so that the reader can trace any datum from hardware input to displayed output.</p>
+    </section>
+
+    <section id="functions" aria-labelledby="functions-heading">
+      <h2 id="functions-heading">Functions and logic: technical reference</h2>
+      <p>This section defines every public contract (function and method signature, data in, data out) and the logic for each part of the system in pipeline order. It satisfies best-practice technical documentation: implementers can see exactly what each function accepts, returns, and does without opening the source. The repository’s <code>docs/technical/</code> deep dives repeat and expand this in markdown; the handbook is the single-page reference.</p>
+
+      <h3>Modules and pipeline order</h3>
+      <p>The codebase is organized in pipeline order: config (no stage; prerequisite) → capture → detect → track → calibrate (apply) → interact → render → operate. Config loading is shared by CLI and app; capture is the only source of frames; detect produces one camera-space point or None; track smooths in projector space; calibration maps camera to projector; interact turns position stream into PointerEvents; render runs the main loop and scenes; operate is the CLI (run, calibrate, bom, healthcheck, export-diagnostics).</p>
+
+      <h3>Contracts and logic by layer</h3>
+
+      <h4>Config</h4>
+      <p><code>_load_app_config(config_dir: str) → dict</code>. Data in: <code>config_dir</code> (path to config directory). Data out: single merged dict with <code>camera_index</code> (int), <code>resolution</code> [width, height], <code>detector</code> ("ir" | "bright"), <code>threshold</code> (int), <code>blur</code> (int), and any keys from the selected profile. Logic: load <code>app.yaml</code>; read <code>profile</code> (default "classroom"); load <code>profiles/&lt;profile&gt;.yaml</code> if present and merge (profile overrides app); return merged dict. Calibration is not loaded here.</p>
+
+      <h4>Capture (core/capture.py)</h4>
+      <p><code>CameraCapture.__init__(camera_index, width, height, fps)</code>. Data in: four parameters (int, int, int, float). Data out: none; <code>self._cap = None</code>. Logic: store parameters; no device opened until <code>open()</code>.</p>
+      <p><code>open() → bool</code>. Data in: none (uses stored params). Data out: True if device opened and properties set, False otherwise. Logic: <code>cv2.VideoCapture(camera_index)</code>; if not opened return False; set CAP_PROP_FRAME_WIDTH, HEIGHT, FPS; return True.</p>
+      <p><code>read() → tuple[bool, np.ndarray | None]</code>. Data in: none. Data out: (success, frame); frame is BGR shape (H,W,3) or None on failure. Logic: if _cap None or not opened return (False, None); <code>ret, frame = self._cap.read()</code>; if not ret or frame None return (False, None); return (True, frame).</p>
+      <p><code>release()</code>. Data in: none. Data out: none. Logic: if _cap set, call <code>release()</code> and set _cap to None.</p>
+      <p>Optional: <code>create_capture(camera_index, width, height, fps, use_libcamera=True)</code> returns <code>LibcameraCapture</code> (Picamera2) when available; otherwise <code>CameraCapture</code>. Same interface: open, read, release.</p>
+
+      <h4>Preprocess and detect (vision)</h4>
+      <p><code>preprocess_grayscale(frame, blur_ksize) → np.ndarray</code>. Data in: BGR or gray frame; blur_ksize (int, odd or 0). Data out: grayscale (H,W) uint8. Logic: BGR→gray if 3 channels; Gaussian blur if blur_ksize &gt; 0 and odd; return.</p>
+      <p><code>threshold_mask(gray, threshold) → np.ndarray</code>. Data in: gray (H,W), threshold (int 0–255). Data out: binary mask 0/255. Logic: <code>cv2.threshold(..., THRESH_BINARY)</code>.</p>
+      <p><code>detect_ir_blob(frame, threshold, blur_ksize, morph_ksize) → tuple[float, float] | None</code>. Data in: frame, threshold, blur_ksize, morph_ksize. Data out: (cx, cy) centroid in camera space or None. Logic: grayscale+blur → threshold_mask → morphology (close/open) → findContours → largest contour by area → area ≥ 10 → moments → (cx, cy).</p>
+      <p><code>detect_bright_point(frame, threshold, blur_ksize) → tuple[float, float] | None</code>. Data in: frame, threshold, blur_ksize. Data out: (x, y) of brightest pixel or None if max &lt; threshold. Logic: preprocess_grayscale → minMaxLoc → if max_val ≥ threshold return max_loc else None.</p>
+
+      <h4>Track and calibration (vision)</h4>
+      <p><code>SmoothingTracker.__init__(alpha=0.3, max_velocity=500.0, use_kalman=False, process_noise=1e-2, measurement_noise=10.0)</code>. Data in: alpha, max_velocity (EMA path); use_kalman, process_noise, measurement_noise (Kalman path). Data out: none. Logic: store params; _x, _y = None. When use_kalman True, a 2D constant-velocity Kalman filter is used instead of EMA.</p>
+      <p><code>update(x, y) → tuple[float, float]</code>. Data in: x, y (float, projector space). Data out: smoothed (x, y). Logic: if use_kalman then _update_kalman else EMA path (first sample, clamp, EMA); return (_x, _y).</p>
+      <p><code>reset()</code>. Data in: none. Data out: none. Logic: _x = _y = None. Call when pointer lost.</p>
+      <p><code>solve_homography(src_pts, dst_pts) → np.ndarray | None</code>. Data in: list of ≥4 (x,y) camera points, list of same length projector points. Data out: 3×3 float64 homography or None. Logic: if len &lt; 4 return None; <code>cv2.findHomography(src, dst, RANSAC, 5.0)</code>; return H.</p>
+      <p><code>save_calibration(path, homography, bounds, resolution)</code>. Data in: path (str|Path), H (3×3), bounds (x0,y0,x1,y1), resolution (w,h). Data out: none. Logic: serialize to YAML and write.</p>
+      <p><code>load_calibration(path) → dict | None</code>. Data in: path. Data out: dict with homography, bounds, resolution or None. Logic: if path missing return None; load YAML; if no "homography" return None; return dict.</p>
+      <p><code>apply_homography(H, x, y) → tuple[float, float]</code>. Data in: H (3×3), x, y (float, camera). Data out: (px, py) projector pixels. Logic: <code>cv2.perspectiveTransform</code> single point.</p>
+      <p><code>reprojection_error(calibration_path, src_pts, dst_pts) → float | None</code>. Data in: path, camera points, projector points. Data out: median error in pixels or None. Logic: load calibration; for each pair apply_homography and compute distance; return median.</p>
+
+      <h4>Interaction (events, gestures, adapters)</h4>
+      <p><code>PointerEvent</code>: dataclass x, y (float), state (PointerState), timestamp (float), confidence (float). <code>PointerState</code>: enum DOWN, MOVE, UP.</p>
+      <p><code>emit_events_from_track(xy, prev_xy, prev_down) → Iterator[PointerEvent]</code>. Data in: xy (x,y)|None, prev_xy (x,y)|None, prev_down (bool). Data out: zero or more PointerEvent. Logic: if xy None and prev_down yield UP at prev_xy; if xy not None and prev_xy None and not prev_down yield DOWN at xy; if xy and prev_xy and position changed yield MOVE at xy.</p>
+      <p><code>classify_gesture(events) → str</code>. Data in: list of PointerEvent. Data out: "tap" | "drag" | "long_press" | "none". Logic: require DOWN and UP; dt and distance; if dt ≥ 0.5s "long_press"; if dist&gt;20 or moves&gt;2 "drag"; else "tap".</p>
+      <p><code>pygame_event_from_pointer(ev) → dict</code>. Data in: PointerEvent. Data out: dict with type "pointer", x, y, state (str), timestamp. Logic: build dict for scene <code>on_pointer</code>.</p>
+      <p><code>push_to_pygame(ev, callback)</code>. Data in: PointerEvent, callable. Data out: none. Logic: <code>callback(pygame_event_from_pointer(ev))</code>.</p>
+      <p>WebSocket adapter: <code>send_pointer_event(ev, socket)</code> serializes the PointerEvent to JSON and sends it over the given socket (send/sendall). Uinput adapter: <code>emit_mouse(ev, uinput_fd)</code> emits Linux mouse events via evdev when available (pass <code>None</code> for auto-created device; <code>uinput_fd</code> is reserved for future use).</p>
+
+      <h4>Renderer and UI</h4>
+      <p><code>run_app(fullscreen, config_dir)</code>. Data in: fullscreen (bool), config_dir (str). Data out: none; does not return until quit. Logic: _load_config; load_calibration (or projector_profile for display size when no calibration); Pygame init; <code>create_capture(..., config.use_libcamera).open()</code>; FPSCounter, <code>SmoothingTracker(..., use_kalman=config.get('use_kalman'))</code>; scenes dict; main loop: read frame → detect → camera_to_proj → tracker.update/reset → emit_events_from_track → scene.on_pointer per event → prev_xy/prev_down update → scene.update/draw → draw_overlay → flip; finally release, pygame.quit.</p>
+      <p><code>_load_config(config_dir) → dict</code>. Data in: config_dir. Data out: app dict. Logic: load app.yaml (and in correct implementation merge profile like _load_app_config).</p>
+      <p>Scenes: <code>on_pointer(ev: dict)</code>, <code>update()</code>, <code>draw(surface)</code>. Data in: ev has x, y, state; surface is Pygame Surface. Data out: none; state and pixels updated. SandboxDraw: corner hotzone cycles color; down/move/up build strokes. ParticleField: pointer pushes particles; update() steps physics. StemWidgets: ruler (length), angles (degrees), graph paper (grid + snap); mode and clear via corners.</p>
+      <p><code>draw_overlay(surface, fps, pointer_xy, threshold)</code>. Data in: surface, fps (float), pointer_xy (x,y)|None, threshold (int). Data out: none. Logic: draw FPS, threshold, pointer text and green circle at pointer.</p>
+      <p><code>run_wizard(config_dir, use_pygame=True)</code>. Data in: config_dir. Data out: none; writes calibration.yaml. Logic: load config; open capture; state machine target→solving→validate→done; collect 4 camera points; solve_homography; save_calibration; optional reprojection_error for validation.</p>
+
+      <h4>CLI and operations</h4>
+      <p><code>main()</code>: Click group; subcommands run, calibrate, bom, healthcheck, export-diagnostics.</p>
+      <p><code>run(fullscreen, config_dir)</code>. Data in: from flags. Data out: none. Logic: import run_app; run_app(fullscreen, config_dir).</p>
+      <p><code>calibrate(config_dir)</code>. Data in: config_dir. Data out: none. Logic: import run_wizard; run_wizard(config_dir).</p>
+      <p><code>bom(repo, pen)</code>. Data in: repo path (--repo, default "."), pen flag (--pen). Data out: prints main BOM (and optionally pen BOM) to stdout; exit 1 if main BOM file missing.</p>
+      <p><code>healthcheck(config_dir)</code>. Data in: config_dir. Data out: prints PASS/FAIL, resolution, FPS, optional CPU temp. Logic: _load_app_config; open VideoCapture; read 30 frames with FPSCounter; release; echo; read thermal zone if present.</p>
+      <p><code>export_diagnostics(output, config_dir, no_config)</code>. Data in: output path, config_dir, no_config. Data out: prints path. Logic: bundle_diagnostics(output, include_config=not no_config, config_dir); echo path.</p>
+      <p><code>get_system_info() → dict[str, str]</code>. Data in: none. Data out: platform, python, processor. Logic: platform module.</p>
+      <p><code>bundle_diagnostics(output_path, include_config, config_dir) → Path</code>. Data in: output path, include_config (bool), config_dir. Data out: resolved Path to .tar.gz. Logic: create tarball; add system_info.txt (timestamp, platform, python); if include_config add app.yaml and profiles (exclude calibration.yaml); return path.</p>
+
+      <p>For step-by-step logic, edge cases, and failure modes, see <code>docs/technical/</code> (01_system_data_flow through 07_cli_config_and_operations).</p>
+    </section>
+
+    <section id="documentation" aria-labelledby="documentation-heading">
+      <h2 id="documentation-heading">Documentation index</h2>
+      <p>Every markdown document in the repository is listed here so that readers can find the full guide for each topic. When viewing this handbook from the repo root (e.g. on GitHub or as <code>index.html</code>), use these paths relative to the repository root to open the corresponding file.</p>
+      <h3>Repository root</h3>
+      <ul class="index-list">
+        <li><a href="README.md">README.md</a> — Who maintains, what the project does, how to get started</li>
+        <li><a href="CONTRIBUTING.md">CONTRIBUTING.md</a> — Types of contributions, setup, code style, PR process</li>
+        <li><a href="CHANGELOG.md">CHANGELOG.md</a> — Release history</li>
+        <li><a href="ROADMAP.md">ROADMAP.md</a> — Phases v0.1–v1.0</li>
+        <li><a href="SECURITY.md">SECURITY.md</a> — Vulnerability reporting</li>
+        <li><a href="MAINTAINERS.md">MAINTAINERS.md</a> — Maintainer names and contact</li>
+        <li><a href="CODE_OF_CONDUCT.md">CODE_OF_CONDUCT.md</a> — Community standards</li>
+      </ul>
+      <h3>docs/</h3>
+      <ul class="index-list">
+        <li><a href="docs/00_overview.md">docs/00_overview.md</a> — Overview and orientation</li>
+        <li><a href="docs/00_best_practices.md">docs/00_best_practices.md</a> — Best practices checklist</li>
+        <li><a href="docs/01_bill_of_materials.md">docs/01_bill_of_materials.md</a> — Bill of materials</li>
+        <li><a href="docs/02_build_guide.md">docs/02_build_guide.md</a> — Step-by-step build guide</li>
+        <li><a href="docs/03_repair_forward_notes.md">docs/03_repair_forward_notes.md</a> — Repair and surplus projectors</li>
+        <li><a href="docs/04_system_architecture.md">docs/04_system_architecture.md</a> — System architecture and data flow</li>
+        <li><a href="docs/05_calibration_ux.md">docs/05_calibration_ux.md</a> — Calibration UX (4-corner flow)</li>
+        <li><a href="docs/06_interaction_design.md">docs/06_interaction_design.md</a> — Interaction design (PointerEvent, gestures, adapters)</li>
+        <li><a href="docs/07_troubleshooting.md">docs/07_troubleshooting.md</a> — Troubleshooting (camera, FPS, alignment)</li>
+        <li><a href="docs/08_safety_and_power.md">docs/08_safety_and_power.md</a> — Safety and power</li>
+        <li><a href="docs/09_accessibility_and_inclusion.md">docs/09_accessibility_and_inclusion.md</a> — Accessibility and inclusion</li>
+        <li><a href="docs/api_overview.md">docs/api_overview.md</a> — API overview</li>
+        <li><a href="docs/config_reference.md">docs/config_reference.md</a> — Config reference</li>
+        <li><a href="docs/images/README.md">docs/images/README.md</a> — Screenshots and images</li>
+      </ul>
+      <h3>docs/demo_walkthrough/</h3>
+      <ul class="index-list">
+        <li><a href="docs/demo_walkthrough/showcase_script.md">docs/demo_walkthrough/showcase_script.md</a> — Demo showcase script</li>
+        <li><a href="docs/demo_walkthrough/operator_checklist.md">docs/demo_walkthrough/operator_checklist.md</a> — Operator checklist</li>
+      </ul>
+      <h3>docs/diagrams/ and docs/adr/</h3>
+      <ul class="index-list">
+        <li><a href="docs/diagrams/README.md">docs/diagrams/README.md</a> — Diagrams index</li>
+        <li><a href="docs/diagrams/architecture.mmd">docs/diagrams/architecture.mmd</a> — Architecture (Mermaid)</li>
+        <li><a href="docs/diagrams/calibration_flow.mmd">docs/diagrams/calibration_flow.mmd</a> — Calibration flow (Mermaid)</li>
+        <li><a href="docs/adr/README.md">docs/adr/README.md</a> — Architecture Decision Records</li>
+      </ul>
+      <h3>docs/technical/</h3>
+      <ul class="index-list">
+        <li><a href="docs/technical/README.md">docs/technical/README.md</a> — Technical deep dives index</li>
+        <li><a href="docs/technical/01_system_data_flow_and_services.md">docs/technical/01_system_data_flow_and_services.md</a> — System data flow</li>
+        <li><a href="docs/technical/02_capture_layer.md">docs/technical/02_capture_layer.md</a> — Capture layer</li>
+        <li><a href="docs/technical/03_vision_preprocess_and_detection.md">docs/technical/03_vision_preprocess_and_detection.md</a> — Preprocess and detection</li>
+        <li><a href="docs/technical/04_tracking_and_calibration.md">docs/technical/04_tracking_and_calibration.md</a> — Tracking and calibration</li>
+        <li><a href="docs/technical/05_interaction_events_gestures_adapters.md">docs/technical/05_interaction_events_gestures_adapters.md</a> — Interaction, events, adapters</li>
+        <li><a href="docs/technical/06_renderer_and_ui.md">docs/technical/06_renderer_and_ui.md</a> — Renderer and UI</li>
+        <li><a href="docs/technical/07_cli_config_and_operations.md">docs/technical/07_cli_config_and_operations.md</a> — CLI and operations</li>
+      </ul>
+      <h3>Hardware docs</h3>
+      <ul class="index-list">
+        <li><a href="hardware/ir_pen/README.md">hardware/ir_pen/README.md</a> — IR pen assembly and wiring</li>
+        <li><a href="hardware/camera_mount/README.md">hardware/camera_mount/README.md</a> — Camera mount (STL/CAD)</li>
+        <li><a href="hardware/enclosure/README.md">hardware/enclosure/README.md</a> — Enclosure (STL)</li>
+      </ul>
+    </section>
+
+    <section id="contributing" aria-labelledby="contributing-heading">
+      <h2 id="contributing-heading">Contributing and open source development</h2>
+      <h3>How to contribute</h3>
+      <p>Smart Pi is developed as an open source project so that the community can implement, extend, and replicate it. The repository includes a CONTRIBUTING.md file that describes the types of contributions (bug reports, feature ideas, hardware compatibility reports, code, documentation, and hardware designs), how to run the project locally, how to add sample data for tests, code style (Ruff, Black, type hints), and the pull request process. The code of conduct is linked from the README and CONTRIBUTING so that all participants share the same standards. Issue templates (bug report, feature request, hardware compatibility) guide reporters to provide enough context; the pull request template asks for a related issue, description, testing done, and a checklist (e.g. docs updated).</p>
+      <h3>Process</h3>
+      <p>To maximize collaboration, the project maintains a single vocabulary (this handbook and the glossary), a full documentation set (overview, build guide, architecture, calibration UX, interaction design, troubleshooting, safety, accessibility, config reference, API overview, and technical deep dives), and a clear scope and roadmap. Contributors can start with “good first issue” labels and small tasks; maintainers are listed in MAINTAINERS.md and CODEOWNERS. The project does not make private design decisions that affect contributors; discussion happens in issues or in Architecture Decision Records (docs/adr/). By providing get started, install, config, outcomes, pipeline, and function-level documentation in one place (and in the repo docs), the handbook supports both users who want to run the demo and developers who want to implement or extend the system.</p>
+    </section>
+
+    <footer>
+      <p>Smart Pi Interactive Projection — Project handbook. See the repository README, <code>docs/</code>, and <code>CONTRIBUTING.md</code> for the canonical sources. This page is a single-file overview for the community; for full technical detail and data in/out for every function, see <code>docs/technical/</code>. Designed for readability and WCAG 2.1 AA; supports reduced motion and print.</p>
+    </footer>
+  </main>
+  <script>
+    (function () {
+      var nav = document.querySelector('nav');
+      if (!nav) return;
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function onScroll() {
+        if (reduceMotion) return;
+        nav.style.background = window.scrollY > 60 ? 'rgba(26, 26, 31, 0.98)' : 'var(--surface)';
+      }
+      if (!reduceMotion) {
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+      }
+    })();
+  </script>
+</body>
+</html>

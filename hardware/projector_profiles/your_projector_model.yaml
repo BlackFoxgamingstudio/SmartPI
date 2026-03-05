@@ -1,0 +1,4 @@
+# Copy and rename for your projector model; add resolution and any known-good settings
+resolution: [1920, 1080]
+refresh_hint: 60
+# model: "Your Model Name"

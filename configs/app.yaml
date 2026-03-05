@@ -1,0 +1,8 @@
+# Smart Pi — main app config
+# See docs/config_reference.md for full reference.
+
+camera_index: 0
+resolution: [640, 480]
+detector: bright  # "ir" or "bright"
+threshold: 200
+profile: classroom

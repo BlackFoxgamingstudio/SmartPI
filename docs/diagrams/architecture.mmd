@@ -1,0 +1,27 @@
+flowchart LR
+  subgraph capture [Capture]
+    Cam[Camera]
+    Frames[Frames]
+    Cam --> Frames
+  end
+  subgraph detect [Detect]
+    Frames --> Det[IR/Bright Detector]
+    Det --> Points[Candidate Points]
+  end
+  subgraph track [Track]
+    Points --> Smooth[Smoothing]
+    Smooth --> XY[Tracked x,y]
+  end
+  subgraph calibrate [Calibrate]
+    XY --> Homography[Homography]
+    Homography --> ProjCoords[Projector Coords]
+  end
+  subgraph interact [Interact]
+    ProjCoords --> Events[PointerEvent]
+    Events --> Gestures[Tap/Drag/Long-press]
+  end
+  subgraph render [Render]
+    Gestures --> Scenes[Pygame Scenes]
+    Scenes --> Display[Display]
+  end
+  capture --> detect --> track --> calibrate --> interact --> render

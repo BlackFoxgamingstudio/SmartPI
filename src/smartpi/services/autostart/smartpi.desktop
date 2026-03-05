@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Smart Pi Interactive Projection
+Comment=Run interactive projection demo
+Exec=python3 -m smartpi.cli run --fullscreen
+Path=/home/pi/rashbarrypi
+Terminal=false
+X-GNOME-Autostart-enabled=true

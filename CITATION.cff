@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+title: Smart Pi Interactive Projection
+message: "If you use this software, please cite it as below."
+version: 0.1.0
+date-released: 2025-03-04
+authors:
+  - name: Smart Pi Contributors
+    url: https://github.com/YOUR_ORG/rashbarrypi
+url: https://github.com/YOUR_ORG/rashbarrypi
+repository-code: https://github.com/YOUR_ORG/rashbarrypi
+license: MIT
+keywords:
+  - raspberry-pi
+  - projection
+  - interactive
+  - calibration
+  - IR-pen
+  - computer-vision

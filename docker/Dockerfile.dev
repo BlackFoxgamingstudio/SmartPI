@@ -1,0 +1,16 @@
+# Dev image for x86 (no Pi camera). Use for lint/test/typecheck.
+# Base image pinned by digest for reproducible builds. Update digest when upgrading.
+FROM python:3.11-slim@sha256:2856e6af199e8128161abd320575eb9b341f3b76f017b5d0c9cd364f60d8a050
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+COPY requirements.txt requirements-dev.txt ./
+RUN pip install --no-cache-dir -r requirements.txt -r requirements-dev.txt
+COPY . .
+RUN pip install -e .
+
+CMD ["make", "test"]

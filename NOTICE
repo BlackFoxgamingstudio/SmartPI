@@ -1,0 +1,10 @@
+Smart Pi Interactive Projection
+Copyright (c) 2025 Smart Pi Contributors
+
+This project uses the following open source software. See each project's license for terms.
+
+- NumPy (BSD-3-Clause)
+- OpenCV (Apache-2.0)
+- Pygame (LGPL-2.1)
+- PyYAML (MIT)
+- Click (BSD-3-Clause)

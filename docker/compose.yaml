@@ -1,0 +1,9 @@
+# Optional: dev tooling (lint, test). Not for Pi camera.
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dev
+    volumes:
+      - ..:/app
+    command: make test

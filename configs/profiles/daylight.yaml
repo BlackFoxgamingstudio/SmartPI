@@ -1,0 +1,3 @@
+# Bright / daylight — higher threshold to avoid false positives
+threshold: 220
+blur: 2

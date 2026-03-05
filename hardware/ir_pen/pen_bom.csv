@@ -1,0 +1,5 @@
+part,quantity,notes
+IR LED (e.g. 940nm),1,Tip of pen
+Button cell or small battery,1,Or USB power
+Switch,1,Momentary or latching
+Enclosure (pen body),1,3D printed or off-the-shelf
